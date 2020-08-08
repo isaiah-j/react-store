@@ -2,5 +2,10 @@
     display: grid;
     width: 40%;
     grid-gap: 6rem;
+}
 
+.sign-in-buttons{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { TextField, Button, FormControl, InputLabel, Input } from '@material-ui/core';
 import useForm from '../../hooks/useForm'
 import './sign-in.styles.scss';
+import { signInWithGoogle } from '../../firebase/firebase.utils'
 
 const initialValues = {
 	email: '',
@@ -30,10 +31,21 @@ const SignIn = () => {
 				controlled value={formValues?.password}
 				label="Password" name='password'
 				onChange={handleChange} />
-			<Button
-				variant='contained'
-				type="submit"
-				color='primary'>Sign In</Button>
+			<div className="sign-in-buttons">
+				<Button
+					variant='contained'
+					type="submit"
+					color='primary'
+					onClick={handleSubmit}
+
+				>Sign In</Button>
+				<Button
+					variant='contained'
+					type="submit"
+					color='secondary'
+					onClick={signInWithGoogle}
+				>Sign In with Google</Button>
+			</div>
 		</form>
 	);
 };

@@ -6,6 +6,7 @@ import Header from './components/Header/header.component'
 import SignInPage from './pages/sign-in-page/sign-in-page.component'
 import SignUpPage from './pages/sign-up-page/sign-up.page'
 
+import { auth } from './firebase/firebase.utils'
 import { Route, Link, Switch } from 'react-router-dom'
 import './App.css'
 
