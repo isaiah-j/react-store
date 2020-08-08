@@ -41,7 +41,6 @@ const SignIn = () => {
 				>Sign In</Button>
 				<Button
 					variant='contained'
-					type="submit"
 					color='secondary'
 					onClick={signInWithGoogle}
 				>Sign In with Google</Button>

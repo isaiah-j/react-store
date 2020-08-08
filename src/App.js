@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // components
 import HomePage from './pages/homepage/homepage.component'
 import ShopPage from './pages/shop/shop.component'
@@ -11,9 +11,23 @@ import { Route, Link, Switch } from 'react-router-dom'
 import './App.css'
 
 function App() {
+  const [currentUser, setCurrentUser] = useState()
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      setCurrentUser(user)
+    })
+
+    // Unsubscribe from session when component unmounts
+    return auth.onAuthStateChanged(user => {
+      setCurrentUser(user)
+        })
+  }, [])
+
+  console.log(currentUser)
   return (
     <div className="App">
-      <Header></Header>
+      <Header currentUser={currentUser}></Header>
       <Switch>
         <Route exact path='/'>
           <HomePage></HomePage>
