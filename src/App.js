@@ -7,6 +7,9 @@ import SignInPage from './pages/sign-in-page/sign-in-page.component'
 import SignUpPage from './pages/sign-up-page/sign-up.page'
 
 import { auth } from './firebase/firebase.utils'
+
+import { createUserProfileDocument } from './firebase/firebase.utils'
+
 import { Route, Link, Switch } from 'react-router-dom'
 import './App.css'
 
@@ -14,17 +17,29 @@ function App() {
   const [currentUser, setCurrentUser] = useState()
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      setCurrentUser(user)
+    auth.onAuthStateChanged(async userAuth => {
+      if(userAuth){
+        const userRef = await createUserProfileDocument(userAuth)
+
+        userRef.onSnapshot(snapShot => {
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data()
+          })
+        })
+      }
+      else{
+        setCurrentUser(null)
+      }
+
     })
 
     // Unsubscribe from session when component unmounts
     return auth.onAuthStateChanged(user => {
       setCurrentUser(user)
-        })
+    })
   }, [])
 
-  console.log(currentUser)
   return (
     <div className="App">
       <Header currentUser={currentUser}></Header>

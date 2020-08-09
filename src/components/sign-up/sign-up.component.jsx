@@ -2,18 +2,32 @@ import React, { useState } from 'react'
 import './sign-up.styles.scss'
 import { TextField, Button, FormControl, InputLabel, Input } from '@material-ui/core';
 import useForm from '../../hooks/useForm'
+import { auth, createUserProfileDocument } from '../../firebase/firebase.utils'
 
 const initialValues = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    displayName: 'isaiah',
+    email: 'synthitics@gmail.com',
+    password: 'isaiah123',
+    confirmPassword: 'isaiah123'
 }
 const SignUp = () => {
     const [formValues, handleChange, clearForm] = useForm(initialValues)
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(formValues)
+
+        const { password, confirmPassword, displayName, email } = formValues
+        if (password !== confirmPassword) {
+            alert('Passwords don\'t match')
+        }
+
+
+        try {
+            const { user } = await auth.createUserWithEmailAndPassword(email, password)
+            createUserProfileDocument(user, { displayName })
+        } catch (error) {
+            console.log(error)
+
+        }
         clearForm()
     }
     return (
@@ -22,8 +36,9 @@ const SignUp = () => {
                 required
                 type="text"
                 label="Display Name"
-                controlled value={formValues?.name}
-                name='name'
+                controlled
+                value={formValues?.displayName}
+                name='displayName'
                 onChange={handleChange} />
             <TextField
                 required
